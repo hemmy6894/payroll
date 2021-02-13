@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Prime</title>
+        <title>Rosper</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -73,7 +73,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    <h2>Prime Payroll</h2>
+                    <h2>Rosper Schools Payroll</h2>
                 </div>
             </div>
         </div>
