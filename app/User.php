@@ -104,5 +104,27 @@ class User extends Authenticatable
     public function updates(){
         return $this->hasMany(UserUpdateModel::class,'user_id','id');
     }
+
+    public function scopePayroll($query){
+        if(!isset($_GET['system'])){
+            $query->where('employee_status','!=',3);
+        }else{
+            $query->where('employee_status','=',3);
+        }
+        
+        if(!isset($_GET['all'])){
+            $query->where('employee_status',1);
+        }
+        return $query;
+    }
+
+    public function scopeAllEmpo($query){
+        if(!isset($_GET['system'])){
+            $query->where('employee_status','!=',3);
+        }else{
+            $query->where('employee_status','=',3);
+        }
+        return $query;
+    }
     
 }

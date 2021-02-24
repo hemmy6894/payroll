@@ -1,7 +1,7 @@
 @extends('layouts.app2')
 @section('content')
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="card border-left-success shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -9,11 +9,25 @@
                         <h1 class="h4 text-gray-900 mb-4">@lang('words.past_payrolls')</h1>
                         <form method="POST" action="{{ route('payroll.download') }}">
                             @csrf
-                            <div class="form-group">
-                                <input type="month" name="month" max="{{ date('Y') . '-' . date('m') }}" require class="form-control form-control-user" id="month" placeholder="@lang('words.month')">
-                                @if($errors->has('month'))
-                                    <span class="text-danger"><small>{{ $errors->first('month') }}</small></span>
-                                @endif
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="From">From (For one month select only this)</label>
+                                        <input type="month" name="month" max="{{ date('Y') . '-' . date('m') }}" require class="form-control form-control-user" id="month" placeholder="@lang('words.month')">
+                                        @if($errors->has('month'))
+                                            <span class="text-danger"><small>{{ $errors->first('month') }}</small></span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="From">To</label>
+                                        <input type="month" name="month_to" max="{{ date('Y') . '-' . date('m') }}" require class="form-control form-control-user" id="month_to" placeholder="@lang('words.month')">
+                                        @if($errors->has('month_to'))
+                                            <span class="text-danger"><small>{{ $errors->first('month_to') }}</small></span>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-secondary btn-icon-split pull-right">

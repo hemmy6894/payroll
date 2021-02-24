@@ -11,6 +11,8 @@ use App\Excels\CSVExport;
 
 class DownloadHelper
 {
+    public static $company_name = "Rosper Schools Payroll ";
+    
     public static function csv($haeder,$field,$array,$name,$data_header=[]){
         $name = Carbon::now()->format('YmdHms') . "__" . $name . ".xlsx";
         return Excel::download(new CSVExport(compact('haeder','field','array','name','data_header')), $name);
@@ -56,6 +58,7 @@ class DownloadHelper
                 'advance' => 0,
                 'loan' => 0,
                 'loan_board' => 0,
+                'loan_bft' => 0,
                 'net_salary' => 0,
                 //'department' => $user->departments->name,
                 //'gender' => $user->genders->name,
@@ -68,13 +71,16 @@ class DownloadHelper
             $advance = CalculationHelper::advance($user->advance());
             $loan = CalculationHelper::month_pay(CalculationHelper::loan($user->id));
             $loan_board = CalculationHelper::month_pay(CalculationHelper::loan($user->id,'board'));
-            $net_salary = CalculationHelper::net_salary([$user->basic_salary],[$pension,$paye,$advance,$loan,$loan_board]);
+            $loan_bft =   CalculationHelper::month_pay(CalculationHelper::loan($user->id,'bft_loan')); 
+            $net_salary = CalculationHelper::net_salary([$user->basic_salary],[$pension,$paye,$advance,$loan,$loan_board,$loan_bft]); 
+            
             $new_user_total['basic_salary'] += $user->basic_salary;
             $new_user_total['pension'] += $pension;
             $new_user_total['paye'] += $paye;
             $new_user_total['advance'] += $advance;
             $new_user_total['loan'] += $loan;
             $new_user_total['loan_board'] += $loan_board;
+            $new_user_total['loan_bft'] += $loan_bft;
             $new_user_total['net_salary'] += $net_salary;
             $new_user_total['sdl'] += $sdl;
             $new_user[] = [
@@ -86,14 +92,24 @@ class DownloadHelper
                 'advance' => DownloadHelper::money($advance),
                 'loan' => DownloadHelper::money($loan),
                 'loan_board' => DownloadHelper::money($loan_board),
+                'loan_bft' => DownloadHelper::money($loan_bft),
                 'net_salary' => DownloadHelper::money($net_salary),
                 //'department' => $user->departments->name,
                 //'gender' => $user->genders->name,
                 'sdl' => DownloadHelper::money($sdl),
             ];
         }
+        $new_user_total['basic_salary'] = DownloadHelper::money($new_user_total['basic_salary']);
+        $new_user_total['pension'] = DownloadHelper::money($new_user_total['pension']);
+        $new_user_total['paye'] = DownloadHelper::money($new_user_total['paye']);
+        $new_user_total['advance'] = DownloadHelper::money($new_user_total['advance']);
+        $new_user_total['loan'] = DownloadHelper::money($new_user_total['loan']);
+        $new_user_total['loan_board'] = DownloadHelper::money($new_user_total['loan_board']);
+        $new_user_total['loan_bft'] = DownloadHelper::money($new_user_total['loan_bft']);
+        $new_user_total['net_salary'] = DownloadHelper::money($new_user_total['net_salary']);
+        $new_user_total['sdl'] = DownloadHelper::money($new_user_total['sdl']);
         $new_user[] = $new_user_total;
-        return DownloadHelper::csv($haeder,['name','basic_salary','pension','paye','advance','loan','loan_board','net_salary','sdl'],json_decode(collect($new_user)->toJson()),$name,$header_null);
+        return DownloadHelper::csv($haeder,['name','basic_salary','pension','paye','advance','loan','loan_board','loan_bft','net_salary','sdl'],json_decode(collect($new_user)->toJson()),$name,$header_null);
     }
 
     public static function file_upload($file,$location,$i = 0,$type="noraml"){
@@ -107,13 +123,28 @@ class DownloadHelper
         return $file_name;
     }
 
-    public static function payroll($haeder,$users,$file_name,$normal = "normal"){
+    public static function payroll($haeder,$users,$file_name,$normal = "normal",$type="single"){
         if(request()->month){
             $date = Carbon::createFromTimeString(request()->month . "-1 0:00:00");
-            $document_header = ['Rosper School ' . $date->format('M, Y')];
+            $document_header = [DownloadHelper::$company_name . " " . $date->format('M, Y')];
         }else{
-            $document_header = ['Rosper School ' . date('M, Y')];
+            $document_header = [DownloadHelper::$company_name . " " . date('M, Y')];
         }
+        $new_user_total = [
+                'name' => "TOTAL",
+                //'email' => $user->email,
+                'basic_salary' => 0,
+                'pension' => 0,
+                'paye' => 0,
+                'advance' => 0,
+                'loan' => 0,
+                'loan_board' => 0,
+                'loan_bft' => 0,
+                'net_salary' => 0,
+                //'department' => $user->departments->name,
+                //'gender' => $user->genders->name,
+                'sdl' => 0,
+            ];
         $new_user = [];
         foreach($users as $user){
             if($normal == "normal"){
@@ -124,18 +155,47 @@ class DownloadHelper
                 $advance = CalculationHelper::advance($user->advance());
                 $loan = CalculationHelper::month_pay(CalculationHelper::loan($user->id));
                 $loan_board = CalculationHelper::month_pay(CalculationHelper::loan($user->id,'board'));
-                $net_salary = CalculationHelper::net_salary([$user->basic_salary],[$pension,$paye,$advance,$loan,$loan_board]);
+                $loan_bft = CalculationHelper::month_pay(CalculationHelper::loan($user->id,'loan_bft'));
+                $net_salary = CalculationHelper::net_salary([$user->basic_salary],[$pension,$paye,$advance,$loan,$loan_board,$loan_bft]);
                 $name  = $user->fname . " " . $user->lname . " " . $user->sname;
             }else{
-                $basic_salary = $user->basic_salary;
-                $pension = $user->pension;
-                $sdl = $user->sdl;
-                $paye = $user->paye;
-                $advance = $user->advance;
-                $loan = $user->loan;
-                $loan_board = $user->loan_board;
-                $net_salary = CalculationHelper::net_salary([$basic_salary],[$pension,$paye,$advance,$loan,$loan_board]);
-                $name  = $user->users->fname . " " . $user->users->lname . " " . $user->users->sname;
+                
+                if($type == "single"){
+                    $basic_salary = $user->basic_salary;
+                    $pension = $user->pension;
+                    $sdl = $user->sdl;
+                    $paye = $user->paye;
+                    $advance = $user->advance;
+                    $loan = $user->loan;
+                    $loan_board = $user->loan_board;
+                    $loan_bft = $user->bft_loan;
+                   $name  = $user->users->fname . " " . $user->users->lname . " " . $user->users->sname;
+                }else{
+                    $basic_salary = 0;
+                    $pension = 0;
+                    $sdl = 0;
+                    $paye = 0;
+                    $advance = 0;
+                    $loan = 0;
+                    $loan_board = 0;
+                    $loan_bft = 0;
+                    $i = 0;
+                    foreach($user as $us){
+                        if(!$i){
+                            $name  = $us->users->fname . " " . $us->users->lname . " " . $us->users->sname;
+                        }
+                        $basic_salary += $us->basic_salary;
+                        $pension += $us->pension;
+                        $sdl += $us->sdl;
+                        $paye += $us->paye;
+                        $advance += $us->advance;
+                        $loan += $us->loan;
+                        $loan_board += $us->loan_board;
+                        $loan_bft += $us->bft_loan;
+                        $i++;
+                    }
+                }
+                $net_salary = CalculationHelper::net_salary([$basic_salary],[$pension,$paye,$advance,$loan,$loan_board,$loan_bft]);
             }
             $new_user[] = [
                 'name' => $name,
@@ -146,13 +206,33 @@ class DownloadHelper
                 'advance' => DownloadHelper::money($advance),
                 'loan' => DownloadHelper::money($loan),
                 'loan_board' => DownloadHelper::money($loan_board),
+                'loan_bft' => DownloadHelper::money($loan_bft),
                 'net_salary' => DownloadHelper::money($net_salary),
                 //'department' => $user->departments->name,
                 //'gender' => $user->genders->name,
                 'sdl' => DownloadHelper::money($sdl),
             ];
+            $new_user_total['basic_salary'] += $basic_salary;
+            $new_user_total['pension'] += $pension;
+            $new_user_total['paye'] += $paye;
+            $new_user_total['advance'] += $advance;
+            $new_user_total['loan'] += $loan;
+            $new_user_total['loan_board'] += $loan_board;
+            $new_user_total['loan_bft'] += $loan_bft;
+            $new_user_total['net_salary'] += $net_salary;
+            $new_user_total['sdl'] += $sdl;
         }
-        return DownloadHelper::csv($haeder,['name','basic_salary','pension','paye','advance','loan','loan_board','net_salary','sdl'],json_decode(collect($new_user)->toJson()),$file_name,$document_header);
+        $new_user_total['basic_salary'] = DownloadHelper::money($new_user_total['basic_salary']);
+        $new_user_total['pension'] = DownloadHelper::money($new_user_total['pension']);
+        $new_user_total['paye'] = DownloadHelper::money($new_user_total['paye']);
+        $new_user_total['advance'] = DownloadHelper::money($new_user_total['advance']);
+        $new_user_total['loan'] = DownloadHelper::money($new_user_total['loan']);
+        $new_user_total['loan_board'] = DownloadHelper::money($new_user_total['loan_board']);
+        $new_user_total['loan_bft'] = DownloadHelper::money($new_user_total['loan_bft']);
+        $new_user_total['net_salary'] = DownloadHelper::money($new_user_total['net_salary']);
+        $new_user_total['sdl'] = DownloadHelper::money($new_user_total['sdl']);
+        $new_user[] = $new_user_total;
+        return DownloadHelper::csv($haeder,['name','basic_salary','pension','paye','advance','loan','loan_board','loan_bft','net_salary','sdl'],json_decode(collect($new_user)->toJson()),$file_name,$document_header);
     }
 
     public static function wcf($haeder,$users,$name){
@@ -278,7 +358,7 @@ class DownloadHelper
 
     public static function money($money){
         if(\is_numeric($money)){
-            return \number_format($money,2,'.','');
+            return \number_format($money,2,'.',',');
             //return DownloadHelper::qouting($n);
         }
         if($money == "dc"){

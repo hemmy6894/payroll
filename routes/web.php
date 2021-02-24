@@ -169,6 +169,18 @@ View::composer(["*"], function($view){
                         }
                         return $money;
                     },
+                'web_nav' => function($key) use($roles){
+                        $navigation = $roles;
+                        if(array_key_exists($key,$navigation)){
+                            if($navigation[$key] == 1){
+                                return true;
+                            }else{
+                                return false;
+                            }
+                        }else{
+                            return false;
+                        }
+                    },
                 'color' => function($color){
                         $bg = "white";
                         if($color == "" || $color == "white"){

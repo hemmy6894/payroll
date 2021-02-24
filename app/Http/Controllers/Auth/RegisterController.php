@@ -73,7 +73,7 @@ class RegisterController extends Controller
         }
         $users = WhereHelper::where_array($users,['lname','fname','sname','national_id'],'like');
         if(isset($_GET['download'])){
-            $header = ['Rosper School ' . date('M, Y')];
+            $header = ['SAF Logistic ' . date('M, Y')];
             return $this->download($users,$header);
         }
         if(isset($_GET['download_wcf'])){
@@ -167,6 +167,7 @@ class RegisterController extends Controller
                 __('words.advance'),
                 __('words.loan'),
                 __('words.loan_board'),
+                __('words.bft_loan_amount'),
                 __('words.net_salary'),
                 __('words.sdl'),
                 
@@ -395,8 +396,11 @@ class RegisterController extends Controller
 
     public function payroll(){
         $users = User::where('employee_status',1)->get();
+        $month_set = $_GET['month']??date('m');
+        $year_set = $_GET['year']??date('Y');
+        $day_set = $_GET['day']??date('d');
         foreach($users as $user){
-            $payroll = PayrollModel::where('user_id',$user->id)->whereMonth('month',date('m'))->whereYear('month',date('Y'));
+            $payroll = PayrollModel::where('user_id',$user->id)->whereMonth('month',$month_set)->whereYear('month',$year_set);
             if(!$payroll->count()){
                 PayrollModel::create([
                     'basic_salary' => $user->basic_salary,
@@ -405,10 +409,10 @@ class RegisterController extends Controller
                     'advance' => CalculationHelper::advance($user->advance()),
                     'loan' => CalculationHelper::month_pay(CalculationHelper::loan($user->id)),
                     'loan_board' => CalculationHelper::month_pay(CalculationHelper::loan($user->id,'board')),
-                    //'bft_loan' => CalculationHelper::month_pay(CalculationHelper::loan($user->id,'bft_loan')),
+                    'bft_loan' => CalculationHelper::month_pay(CalculationHelper::loan($user->id,'bft_loan')),
                     'sdl' => CalculationHelper::sdl($user->basic_salary),
                     'user_id' => $user->id,
-                    'month' => Carbon::now()->format('Y-m-d'),
+                    'month' => Carbon::createFromTimeString("$year_set-$month_set-$day_set 00:00:00")->format('Y-m-d'),
                 ]);
                 echo "created";
             }else{
@@ -419,7 +423,7 @@ class RegisterController extends Controller
                     'advance' => CalculationHelper::advance($user->advance()),
                     'loan' => CalculationHelper::month_pay(CalculationHelper::loan($user->id)),
                     'loan_board' => CalculationHelper::month_pay(CalculationHelper::loan($user->id,'board')),
-                    //'bft_loan' => CalculationHelper::month_pay(CalculationHelper::loan($user->id,'bft_loan')),
+                    'bft_loan' => CalculationHelper::month_pay(CalculationHelper::loan($user->id,'bft_loan')),
                     'sdl' => CalculationHelper::sdl($user->basic_salary),
                     'user_id' => $user->id,
                 ]);
