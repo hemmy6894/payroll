@@ -166,7 +166,7 @@ class LoanController extends Controller
             $request->monthly_pay,
             $request_salary_month,
             0,
-            $request->comment,
+            $request->comment
         );
         return RedirectHelper::create_sms($loan,'loan.index');
     }
