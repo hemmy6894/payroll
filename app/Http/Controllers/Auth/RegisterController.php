@@ -169,7 +169,7 @@ class RegisterController extends Controller
                 __('words.loan_board'),
                 __('words.bft_loan_amount'),
                 __('words.net_salary'),
-                __('words.sdl'),
+                // __('words.sdl'),
                 
             ],
             $users->get(),
@@ -410,7 +410,7 @@ class RegisterController extends Controller
                     'loan' => CalculationHelper::month_pay(CalculationHelper::loan($user->id)),
                     'loan_board' => CalculationHelper::month_pay(CalculationHelper::loan($user->id,'board')),
                     'bft_loan' => CalculationHelper::month_pay(CalculationHelper::loan($user->id,'bft_loan')),
-                    'sdl' => CalculationHelper::sdl($user->basic_salary),
+                    'sdl' => 0, //CalculationHelper::sdl($user->basic_salary),
                     'user_id' => $user->id,
                     'month' => Carbon::createFromTimeString("$year_set-$month_set-$day_set 00:00:00")->format('Y-m-d'),
                 ]);
@@ -424,7 +424,7 @@ class RegisterController extends Controller
                     'loan' => CalculationHelper::month_pay(CalculationHelper::loan($user->id)),
                     'loan_board' => CalculationHelper::month_pay(CalculationHelper::loan($user->id,'board')),
                     'bft_loan' => CalculationHelper::month_pay(CalculationHelper::loan($user->id,'bft_loan')),
-                    'sdl' => CalculationHelper::sdl($user->basic_salary),
+                    'sdl' => 0,//CalculationHelper::sdl($user->basic_salary),
                     'user_id' => $user->id,
                 ]);
                 echo "updated";

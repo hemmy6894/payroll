@@ -39,7 +39,7 @@ class PayrollController extends Controller
                 __('words.loan_board'),
                 __('words.bft_loan_amount'),
                 __('words.net_salary'),
-                __('words.sdl'),
+                // __('words.sdl'),
                 
             ],
             $data,

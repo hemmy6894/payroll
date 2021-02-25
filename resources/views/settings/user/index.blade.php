@@ -25,7 +25,7 @@
                                         <th nowrap>@lang('words.loan_board')</th>
                                         <th nowrap>@lang('words.bft_loan')</th>
                                         <th nowrap>@lang('words.net_salary')</th>
-                                        <th nowrap>@lang('words.sdl')</th>
+                                        <!-- <th nowrap>@lang('words.sdl')</th> -->
                                         <th nowrap>@lang('words.employee_status')</th>
                                         <th nowrap colspan="6">@lang('words.action')</th>
                                     </thead>
@@ -43,7 +43,7 @@
                                                 <td nowrap>{{ $money_view($monthly_payment2 =  Calculator::month_pay(Calculator::loan($user->id,'board'))) }} @php($net_salary -= Calculator::loan($user->id,'board')->monthly_payment)</td>
                                                 <td nowrap>{{ $money_view($monthly_payment3 =  Calculator::month_pay(Calculator::loan($user->id,'bft_loan'))) }} @php($net_salary -= Calculator::loan($user->id,'bft_loan')->monthly_payment)</td>
                                                 <td nowrap>{{ $money_view(Calculator::net_salary([$bs],[$paye,$pension,$monthly_payment,$monthly_payment2,$advance,$monthly_payment3]))}}</td>
-                                                <td nowrap>{{ $money_view(Calculator::sdl($user->basic_salary)) }}</td>
+                                                <!-- <td nowrap>{{ $money_view(Calculator::sdl($user->basic_salary)) }}</td> -->
                                                 <td nowrap><span class="btn btn-sm" style="{{ $color(@$user->t_status->bg_color) }}">{{ $user->t_status->name }}</span></td>
                                                 <td nowrap><a href="{{ $payslip.'='.$user->id }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm pull-right"><i class="fas fa-download fa-sm text-white-50"></i> @lang('words.payslip')</a></td>
                                             </tr>
