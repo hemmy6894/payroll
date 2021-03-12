@@ -1,5 +1,6 @@
 <?php
 
+use Hemmy\RoleManamger\Controllers\RoleController;
 use Illuminate\Http\Request;
 
 /*
@@ -15,4 +16,8 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::get('/package/test', function(){
+    RoleController::print_array(['hemmy' => "This is the first Hemmy Controller"]);
 });

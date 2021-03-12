@@ -73,7 +73,7 @@ class RegisterController extends Controller
         }
         $users = WhereHelper::where_array($users,['lname','fname','sname','national_id'],'like');
         if(isset($_GET['download'])){
-            $header = ['SAF Logistic ' . date('M, Y')];
+            $header = ['Rosper Schools Payroll ' . date('M, Y')];
             return $this->download($users,$header);
         }
         if(isset($_GET['download_wcf'])){

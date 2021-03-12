@@ -189,6 +189,10 @@ class ComposerStaticInitb197a6e2fe19b095901faf5d964aa66e
         array (
             'Illuminate\\' => 11,
         ),
+        'H' => 
+        array (
+            'Hemmy\\RoleManamger\\' => 19,
+        ),
         'F' => 
         array (
             'FontLib\\' => 8,
@@ -462,6 +466,10 @@ class ComposerStaticInitb197a6e2fe19b095901faf5d964aa66e
         'Illuminate\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
+        ),
+        'Hemmy\\RoleManamger\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/hemmy/hemmy_package/src',
         ),
         'FontLib\\' => 
         array (
@@ -1877,6 +1885,8 @@ class ComposerStaticInitb197a6e2fe19b095901faf5d964aa66e
         'Hamcrest\\Type\\IsString' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Type/IsString.php',
         'Hamcrest\\Util' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Util.php',
         'Hamcrest\\Xml\\HasXPath' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Xml/HasXPath.php',
+        'Hemmy\\RoleManamger\\Controllers\\RoleController' => __DIR__ . '/..' . '/hemmy/hemmy_package/src/Controllers/RoleController.php',
+        'Hemmy\\RoleManamger\\RoleManagerServiceProvider' => __DIR__ . '/..' . '/hemmy/hemmy_package/src/RoleManagerServiceProvider.php',
         'Highlight\\Autoloader' => __DIR__ . '/..' . '/scrivo/highlight.php/Highlight/Autoloader.php',
         'Highlight\\HighlightResult' => __DIR__ . '/..' . '/scrivo/highlight.php/Highlight/HighlightResult.php',
         'Highlight\\Highlighter' => __DIR__ . '/..' . '/scrivo/highlight.php/Highlight/Highlighter.php',

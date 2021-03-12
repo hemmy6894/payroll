@@ -1000,6 +1000,52 @@
         ]
     },
     {
+        "name": "hemmy/hemmy_package",
+        "version": "dev-main",
+        "version_normalized": "dev-main",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/hemmy6894/hemmy_pkg_test.git",
+            "reference": "4cc5642dc6cb7cdf49c5efbbe64073eea68b9ae8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/hemmy6894/hemmy_pkg_test/zipball/4cc5642dc6cb7cdf49c5efbbe64073eea68b9ae8",
+            "reference": "4cc5642dc6cb7cdf49c5efbbe64073eea68b9ae8",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/support": "^6",
+            "php": ">=7.1.3"
+        },
+        "time": "2021-02-26T22:30:11+00:00",
+        "type": "library",
+        "extra": {
+            "laravel": {
+                "providers": [
+                    "Hemmy\\RoleManamger\\RoleManagerServiceProvider"
+                ]
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Hemmy\\RoleManamger\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Hemedi Mshamu",
+                "email": "hemmy6894@gmail.com"
+            }
+        ],
+        "description": "This is my first package"
+    },
+    {
         "name": "laravel/framework",
         "version": "v6.20.16",
         "version_normalized": "6.20.16.0",

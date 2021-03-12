@@ -259,8 +259,8 @@ class DownloadHelper
             $new_user[] = [
                 'sn' => $i++,
                 'name' => $name_,
-                'basic_salary' => DownloadHelper::money($user->basic_salary),
-                'pension' => DownloadHelper::money($pension),
+                'basic_salary' => $user->basic_salary,
+                'pension' => $pension,
                 'contribution_no' => $pension_no,
                 'employee_no' => $employee_no,
             ];
@@ -302,10 +302,10 @@ class DownloadHelper
             $new_user[] = [
                 'sn' => $i++,
                 'name' => $name_,
-                'basic_salary' => DownloadHelper::money($user->basic_salary),
-                'pension' => DownloadHelper::money($pension),
-                'pension_c' => DownloadHelper::money($pension),
-                'pension_t' => DownloadHelper::money($pension * 2),
+                'basic_salary' => $user->basic_salary,
+                'pension' => $pension,
+                'pension_c' => $pension,
+                'pension_t' => ($pension * 2),
                 'contribution_no' => $pension_no,
                 'employee_no' => $employee_no,
                 'national_id' => $nida,

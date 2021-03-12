@@ -1313,6 +1313,8 @@ return array(
     'Hamcrest\\Type\\IsString' => $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Type/IsString.php',
     'Hamcrest\\Util' => $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Util.php',
     'Hamcrest\\Xml\\HasXPath' => $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Xml/HasXPath.php',
+    'Hemmy\\RoleManamger\\Controllers\\RoleController' => $vendorDir . '/hemmy/hemmy_package/src/Controllers/RoleController.php',
+    'Hemmy\\RoleManamger\\RoleManagerServiceProvider' => $vendorDir . '/hemmy/hemmy_package/src/RoleManagerServiceProvider.php',
     'Highlight\\Autoloader' => $vendorDir . '/scrivo/highlight.php/Highlight/Autoloader.php',
     'Highlight\\HighlightResult' => $vendorDir . '/scrivo/highlight.php/Highlight/HighlightResult.php',
     'Highlight\\Highlighter' => $vendorDir . '/scrivo/highlight.php/Highlight/Highlighter.php',
